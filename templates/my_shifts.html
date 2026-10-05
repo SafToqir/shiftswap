@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "_field.html" import shift_card %}
+{% block title %}My shifts · ShiftSwap{% endblock %}
+{% block content %}
+<h1>My shifts</h1>
+
+<h2>Shifts I've posted</h2>
+{% if posted %}
+  <ul class="shifts">
+  {% for shift in posted %}
+    <li class="card shift">
+      {{ shift_card(shift) }}
+      <div class="shift-side">
+        {% if shift.is_claimed %}
+          <span class="tag claimed">Covered by {{ shift.claimed_by.name }}</span>
+        {% elif shift.is_past %}
+          <span class="tag">Not covered</span>
+        {% else %}
+          <span class="tag open">Waiting for cover</span>
+          <form method="post" action="{{ url_for('cancel_shift', shift_id=shift.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="link danger">Remove</button>
+          </form>
+        {% endif %}
+      </div>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p class="card muted">You haven't posted any shifts.</p>
+{% endif %}
+
+<h2>Shifts I'm covering</h2>
+{% if claimed %}
+  <ul class="shifts">
+  {% for shift in claimed %}
+    <li class="card shift">
+      {{ shift_card(shift) }}
+      <div class="shift-side">
+        <span class="muted">For {{ shift.posted_by.name }}</span>
+        {% if not shift.is_past %}
+        <form method="post" action="{{ url_for('release_shift', shift_id=shift.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="link danger">Give back</button>
+        </form>
+        {% endif %}
+      </div>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p class="card muted">You're not covering any shifts. <a href="{{ url_for('index') }}">See open shifts</a></p>
+{% endif %}
+{% endblock %}

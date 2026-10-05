@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_field.html" import shift_card %}
+{% block content %}
+<h1>Open shifts</h1>
+{% if shifts %}
+  <ul class="shifts">
+  {% for shift in shifts %}
+    <li class="card shift">
+      {{ shift_card(shift) }}
+      <div class="shift-side">
+        <span class="muted">Posted by {{ shift.posted_by.name }}</span>
+        <form method="post" action="{{ url_for('claim_shift', shift_id=shift.id) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="button">Claim</button>
+        </form>
+      </div>
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p class="card muted">No open shifts right now. Check back later, or <a href="{{ url_for('new_shift') }}">post one of yours</a>.</p>
+{% endif %}
+{% endblock %}

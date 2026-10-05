@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_field.html" import field %}
+{% block title %}Post a shift · ShiftSwap{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Post a shift you can't cover</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ field(form.role, placeholder="e.g. Checkouts, Warehouse, Bakery") }}
+    {{ field(form.day) }}
+    <div class="row">
+      {{ field(form.start_time) }}
+      {{ field(form.end_time) }}
+    </div>
+    <p class="muted small">If the end time is earlier than the start, it's treated as an overnight shift.</p>
+    {{ field(form.note, placeholder="Anything your colleagues should know") }}
+    <button class="button">Post shift</button>
+  </form>
+</section>
+{% endblock %}

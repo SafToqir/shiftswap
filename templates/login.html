@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% from "_field.html" import field %}
+{% block title %}Log in · ShiftSwap{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Log in</h1>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ field(form.email, autocomplete="email") }}
+    {{ field(form.password, autocomplete="current-password") }}
+    <button class="button">Log in</button>
+  </form>
+  <p class="muted">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</section>
+{% endblock %}

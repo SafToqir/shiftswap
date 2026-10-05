@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} · ShiftSwap{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>{{ code }}</h1>
+  <p>{{ message }}</p>
+  <a class="button" href="{{ url_for('index') }}">Back to open shifts</a>
+</section>
+{% endblock %}

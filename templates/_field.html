@@ -1,0 +1,16 @@
+{% macro field(f) %}
+<label>
+  {{ f.label.text }}
+  {{ f(**kwargs) }}
+  {% for error in f.errors %}<span class="error">{{ error }}</span>{% endfor %}
+</label>
+{% endmacro %}
+
+{% macro shift_card(shift) %}
+<div class="shift-info">
+  <strong>{{ shift.role }}</strong>
+  <span>{{ shift.start.strftime('%a %d %b') }}, {{ shift.start.strftime('%H:%M') }}–{{ shift.end.strftime('%H:%M') }}
+    {% if shift.end.date() != shift.start.date() %}(overnight){% endif %} · {{ shift.hours }} hrs</span>
+  {% if shift.note %}<em>{{ shift.note }}</em>{% endif %}
+</div>
+{% endmacro %}
